@@ -13,15 +13,42 @@
         <div class="panel-heading">Message from: {{ contactus.email }}</div>
         
         <div class="panel-body">{{ contactus.msg }}</div>
+
+        <a href="/delete/{{ contactus.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+
         </div>
     {% endfor %}
         <br\>
-    {% for user in users %}
+        {% for ios in ios %}
+        <div class="panel panel-info">
+        
+        <div class="panel-heading">Problem for IOS: {{ ios.prosubios }}</div>
+            
+        <div class="panel-body">Solution: {{ ios.proios }}</div>
+        <a href="/deleteios/{{ ios.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+
+        </div>
+    {% endfor %}
+    <br\>
+    {% for android in android %}
         <div class="panel panel-success">
         
-        <div class="panel-heading">user name: {{ user.username }}</div>
+        <div class="panel-heading">Problem for Andriod: {{ android.prosubandroid }}</div>
             
-        <div class="panel-body">email: {{ user.email }}</div>
+        <div class="panel-body">Solution: {{ android.proandroid }}</div>
+        <a href="/deleteandriod/{{ android.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+
+        </div>
+    {% endfor %}
+    <br\>
+    {% for user in users %}
+        <div class="panel panel-default">
+        
+        <div class="panel-heading">User-name: {{ user.username }}</div>
+            
+        <div class="panel-body">Email: {{ user.email }}</div>
+        <a href="/deleteuser/{{ user.id }}" class="btn btn-outline-danger btn-sm">Delete</a>
+
         </div>
     {% endfor %}
 </div>

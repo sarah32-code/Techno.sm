@@ -60,6 +60,7 @@ def homepage():
     return render_template("Home.html")
 
 
+
 @app.route('/Registertion.html', methods=['POST','GET'])
 def register_user():
     if current_user.is_authenticated:
@@ -165,7 +166,7 @@ def accountpage():
         current_user.email = form.email.data
         db.session.merge(current_user)
         db.session.commit()
-        flash('updated!', 'success')
+        flash(f'updated!', 'success')
     elif request.method == "GET":
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -251,14 +252,69 @@ def reset_token(token):
         return redirect(url_for('Loginpage'))
     return render_template('change_password.html',form= form)
 
+#----------------------------------------------------------
+@app.route('/delete/<int:id>')
+def delete(id):
+    numdelete = ContactUs.query.get(id)
+    
+    try:
+        db.session.delete(numdelete)
+        db.session.commit()
+        flash('Message Deleted', 'danger')
+
+        return redirect(url_for('admin'))
+    except:
+        return"You can't delete"
+
+@app.route('/deleteios/<int:id>')
+def deleteios(id):
+    postiosdelete = Ios.query.get(id)
+    try:
+        db.session.delete(postiosdelete)
+        db.session.commit()
+        flash('Deleted', 'danger')
+
+        return redirect(url_for('admin'))
+    except:
+        return"You can't delete"
+
+@app.route('/deleteandriod/<int:id>')
+def deleteandriod(id):
+    postandelete = Android.query.get(id)
+
+    try:
+        db.session.delete(postandelete)
+        db.session.commit()
+        flash('Deleted', 'danger')
+
+        return redirect(url_for('admin'))
+    except:
+        return"You can't delete"
+    
+@app.route('/deleteuser/<int:id>')
+def deleteuser(id):
+    deleteuser = User.query.get(id)
+
+    try:
+        db.session.delete(deleteuser)
+        db.session.commit()
+        flash('User Deleted', 'danger')
+
+        return redirect(url_for('admin'))
+    except:
+        return"You can't delete"
+#----------------------------------------------------------
 @app.route('/admin.html', methods=['GET','POST'])
 @login_required 
 def admin():
     problem = ContactUs.query.all()
     users = User.query.all()
+    ios= Ios.query.all()
+    android = Android.query.all()
+
     id = current_user.id
     if id == 1:
-        return render_template("admin.html", problem=problem, users=users)
+        return render_template("admin.html", problem=problem, users=users, ios=ios,android=android)
     else:
         flash("You must be an admin user ", " danger")
         return redirect(url_for('Loginpage'))
